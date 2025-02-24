@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}工程進度 - 客戶管理系統{% endblock %}
+{% block content %}
+<div class="mt-5">
+  <h2 class="mb-4">工程進度管理</h2>
+  <a href="{{ url_for('progress_add') }}" class="btn btn-primary mb-3">
+    <i class="bi bi-plus-circle me-1"></i> 新增工程進度
+  </a>
+  {% if progress_records %}
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>#ID</th>
+          <th>客戶名稱</th>
+          <th>報價確認日期</th>
+          <th>開始施工日期</th>
+          <th>完工日期</th>
+          <th>進度</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in progress_records %}
+          {% set steps = 0 %}
+          {% if record.quotation_confirm_date %}
+            {% set steps = steps + 1 %}
+          {% endif %}
+          {% if record.start_construction_date %}
+            {% set steps = steps + 1 %}
+          {% endif %}
+          {% if record.completed_date %}
+            {% set steps = steps + 1 %}
+          {% endif %}
+          {% set percentage = (steps * 100 / 3)|int %}
+          <tr>
+            <td>{{ record.id }}</td>
+            <td>{{ record.customer_name }}</td>
+            <td>{{ record.quotation_confirm_date or '-' }}</td>
+            <td>{{ record.start_construction_date or '-' }}</td>
+            <td>{{ record.completed_date or '-' }}</td>
+            <td>
+              <div class="progress" style="height: 20px;">
+                <div class="progress-bar" role="progressbar" style="width: {{ percentage }}%%;" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100">
+                     aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100">
+                  {{ percentage }}%
+                </div>
+              </div>
+            </td>
+            <td>
+              <a href="{{ url_for('edit_progress', id=record.id) }}" class="btn btn-sm btn-outline-warning">編輯</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="text-muted">目前沒有工程進度記錄。</p>
+  {% endif %}
+</div>
+{% endblock %}
