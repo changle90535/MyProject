@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}新增使用者 - 客戶管理系統{% endblock %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+  <div class="col-md-6">
+    <div class="card shadow-lg">
+      <div class="card-header bg-primary text-white">
+        <h4 class="card-title mb-0">新增使用者</h4>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('add_user') }}" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="username" class="form-label">使用者名稱</label>
+            <input type="text" name="username" id="username" class="form-control" required placeholder="請輸入使用者名稱">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">密碼</label>
+            <input type="password" name="password" id="password" class="form-control" required placeholder="請輸入密碼">
+          </div>
+          <div class="mb-3">
+            <label for="role" class="form-label">角色</label>
+            <select name="role" id="role" class="form-select" required>
+              <option value="user">使用者</option>
+              <option value="admin">管理者</option>
+            </select>
+          </div>
+          <h5 class="mt-4">權限設定</h5>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="can_modify_customers" name="can_modify_customers" value="1">
+            <label class="form-check-label" for="can_modify_customers">允許修改客戶資訊</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="can_edit_repairs" name="can_edit_repairs" value="1">
+            <label class="form-check-label" for="can_edit_repairs">允許編輯報修記錄</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="can_add_repairs" name="can_add_repairs" value="1">
+            <label class="form-check-label" for="can_add_repairs">允許新增報修記錄</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="can_delete_repairs" name="can_delete_repairs" value="1">
+            <label class="form-check-label" for="can_delete_repairs">允許刪除報修記錄</label>
+          </div>
+          <!-- 新增 LINE ID 欄位 -->
+          <div class="mb-3">
+            <label for="line_id" class="form-label">LINE ID</label>
+            <input type="text" name="line_id" id="line_id" class="form-control" placeholder="請輸入好友的 LINE ID">
+          </div>
+          <!-- 新增頭像上傳 -->
+          <div class="mb-3">
+            <label for="avatar" class="form-label">頭像</label>
+            <input type="file" name="avatar" id="avatar" class="form-control" accept="image/*">
+          </div>
+          <div class="d-grid gap-2 mt-4">
+            <button type="submit" class="btn btn-primary">新增使用者</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}新增請款記錄 - 客戶管理系統{% endblock %}
+{% block content %}
+<div class="mt-5">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  
+  <h2>新增請款記錄</h2>
+  <form method="POST" action="{{ url_for('add_billing') }}" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="customer_id" class="form-label">選擇客戶</label>
+      <select name="customer_id" id="customer_id" class="form-select" required>
+        <option value="">請選擇</option>
+        {% for cust in available_customers %}
+          <option value="{{ cust.id }}">{{ cust.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <!-- 提醒日期 -->
+    <div class="mb-3">
+      <label for="reminder_date" class="form-label">提醒日期</label>
+      <input type="date" name="reminder_date" id="reminder_date" class="form-control">
+      <div class="form-text">設定提醒日期，系統會在該日期提醒您處理請款流程。</div>
+    </div>
+    <!-- 多檔上傳報價單 -->
+    <div class="mb-3">
+      <label for="quotations" class="form-label">上傳報價單 (可多選)</label>
+      <input type="file" class="form-control" id="quotations" name="quotations" multiple>
+      <div class="form-text">支援格式: pdf, doc, docx, png, jpg, jpeg, gif</div>
+    </div>
+    <button type="submit" class="btn btn-primary">新增請款記錄</button>
+    <a href="{{ url_for('billing') }}" class="btn btn-secondary">取消</a>
+  </form>
+</div>
+{% endblock %}

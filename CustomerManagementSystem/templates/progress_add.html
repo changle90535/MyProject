@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}新增工程進度 - 客戶管理系統{% endblock %}
+{% block content %}
+<div class="card shadow-lg mx-auto" style="max-width: 800px; margin-top: 2rem;">
+  <div class="card-header bg-primary text-white">
+    <h1 class="card-title h5 mb-0">
+      <i class="bi bi-building me-2"></i>新增工程進度
+    </h1>
+  </div>
+  <div class="card-body">
+    <form method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+      <!-- 選擇客戶 -->
+      <div class="mb-4">
+        <label class="form-label fw-bold">客戶</label>
+        <select name="customer_id" class="form-select" required>
+          <option value="">請選擇客戶</option>
+          {% for customer in customers %}
+          <option value="{{ customer.id }}">{{ customer.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <!-- 報價確認檔案 -->
+      <div class="mb-4">
+        <label class="form-label fw-bold">報價確認檔案</label>
+        <input type="file" name="quotation_confirm_file" class="form-control" accept="image/*,application/pdf">
+      </div>
+      <!-- 進度條與日期輸入 -->
+      <div class="mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="text-center">
+            <div class="rounded-circle bg-primary text-white" style="width:50px; height:50px; line-height:50px;">1</div>
+            <div>報價確認</div>
+          </div>
+          <div class="text-center">
+            <div class="rounded-circle bg-secondary text-white" style="width:50px; height:50px; line-height:50px;">2</div>
+            <div>開始施工</div>
+          </div>
+          <div class="text-center">
+            <div class="rounded-circle bg-success text-white" style="width:50px; height:50px; line-height:50px;">3</div>
+            <div>完工</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <input type="date" name="quotation_confirm_date" class="form-control" placeholder="報價確認日期">
+          </div>
+          <div class="col-md-4">
+            <input type="date" name="start_construction_date" class="form-control" placeholder="開始施工日期">
+          </div>
+          <div class="col-md-4">
+            <input type="date" name="completed_date" class="form-control" placeholder="完工日期">
+          </div>
+        </div>
+      </div>
+      <!-- 提交按鈕 -->
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
+        <button type="reset" class="btn btn-outline-secondary px-4">
+          <i class="bi bi-arrow-counterclockwise me-2"></i>重設
+        </button>
+        <button type="submit" class="btn btn-primary px-5">
+          <i class="bi bi-save me-2"></i>建立工程進度
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
