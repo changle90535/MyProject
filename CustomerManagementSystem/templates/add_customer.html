@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}新增客戶 - 客戶管理系統{% endblock %}
+{% block content %}
+<div class="card shadow-lg mx-auto" style="max-width: 800px; margin-top: 2rem;">
+  <div class="card-header bg-primary text-white">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1 class="card-title mb-0 fs-4">
+        <i class="bi bi-person-plus-fill me-2"></i>新增客戶
+      </h1>
+      <a href="{{ url_for('customers') }}" class="btn btn-light btn-sm">
+        <i class="bi bi-arrow-left-circle me-2"></i>返回列表
+      </a>
+    </div>
+  </div>
+  <div class="card-body">
+    <form method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+      <!-- 客戶姓名 -->
+      <div class="mb-4">
+        <label class="form-label fw-bold form-required">客戶姓名</label>
+        <input type="text" name="name" class="form-control form-control-lg" required placeholder="請輸入客戶全名">
+        <div class="invalid-feedback">此為必填欄位</div>
+      </div>
+      <!-- 攝影機遠端網址（動態新增） -->
+      <div class="mb-4">
+        <label class="form-label fw-bold">攝影機遠端網址</label>
+        <div id="cameraUrlsContainer">
+          <div class="input-group mb-2">
+            <input type="url" name="camera_remote_url[]" class="form-control" placeholder="請輸入攝影機遠端網址" pattern="https?://.+" required>
+            <button type="button" class="btn btn-outline-danger remove-url-btn">刪除</button>
+          </div>
+        </div>
+        <button type="button" id="addUrlBtn" class="btn btn-outline-primary">新增網址</button>
+      </div>
+      <!-- 內部IP（動態新增） -->
+      <div class="mb-4">
+        <label class="form-label fw-bold">內部IP</label>
+        <div id="internalIPContainer">
+          <div class="input-group mb-2">
+            <input type="text" name="internal_ip[]" class="form-control" placeholder="請輸入內部IP" required>
+            <button type="button" class="btn btn-outline-danger remove-ip-btn">刪除</button>
+          </div>
+        </div>
+        <button type="button" id="addIPBtn" class="btn btn-outline-primary">新增內部IP</button>
+      </div>
+      <!-- 通訊埠 -->
+      <div class="mb-4">
+        <label class="form-label fw-bold">通訊埠</label>
+        <input type="text" name="communication_port" class="form-control" placeholder="請輸入通訊埠">
+      </div>
+      <!-- 監控帳號密碼 -->
+      <div class="mb-4">
+        <label class="form-label fw-bold">監控帳號密碼</label>
+        <input type="text" name="monitoring_credentials" class="form-control" placeholder="請輸入監控帳號密碼">
+      </div>
+      <!-- 路由器密碼 -->
+      <div class="mb-4">
+        <label class="form-label fw-bold">路由器密碼</label>
+        <input type="text" name="router_password" class="form-control" placeholder="請輸入路由器密碼">
+      </div>
+      <!-- Google 地圖連結 -->
+      <div class="mb-4">
+        <label class="form-label fw-bold">Google 地圖連結</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
+          <input type="url" name="google_map_url" class="form-control" placeholder="https://maps.google.com/..." pattern="https?://.+">
+        </div>
+        <div class="form-text">請貼上完整的 Google Maps 分享連結</div>
+      </div>
+      <!-- 平面圖 -->
+      <div class="mb-4">
+        <label class="form-label fw-bold">平面圖</label>
+        <input type="file" name="floor_plan" class="form-control" accept="image/*">
+      </div>
+      <!-- 提交按鈕 -->
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
+        <button type="reset" class="btn btn-outline-secondary">
+          <i class="bi bi-arrow-counterclockwise me-2"></i>重設
+        </button>
+        <button type="submit" class="btn btn-primary px-5">
+          <i class="bi bi-save me-2"></i>建立客戶
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // 動態新增攝影機遠端網址欄位
+  document.getElementById('addUrlBtn').addEventListener('click', function() {
+    var container = document.getElementById('cameraUrlsContainer');
+    var div = document.createElement('div');
+    div.className = "input-group mb-2";
+    div.innerHTML = '<input type="url" name="camera_remote_url[]" class="form-control" placeholder="請輸入攝影機遠端網址" pattern="https?://.+" required>' +
+                    '<button type="button" class="btn btn-outline-danger remove-url-btn">刪除</button>';
+    container.appendChild(div);
+  });
+
+  document.addEventListener('click', function(e) {
+    if(e.target && e.target.classList.contains('remove-url-btn')){
+      var parent = e.target.parentNode;
+      parent.parentNode.removeChild(parent);
+    }
+  });
+
+  // 動態新增內部IP欄位
+  document.getElementById('addIPBtn').addEventListener('click', function() {
+    var container = document.getElementById('internalIPContainer');
+    var div = document.createElement('div');
+    div.className = "input-group mb-2";
+    div.innerHTML = '<input type="text" name="internal_ip[]" class="form-control" placeholder="請輸入內部IP" required>' +
+                    '<button type="button" class="btn btn-outline-danger remove-ip-btn">刪除</button>';
+    container.appendChild(div);
+  });
+
+  document.addEventListener('click', function(e) {
+    if(e.target && e.target.classList.contains('remove-ip-btn')){
+      var parent = e.target.parentNode;
+      parent.parentNode.removeChild(parent);
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}匯入客戶資料 - 中聯科技 TRUNG LIEN{% endblock %}
+{% block content %}
+<div class="card shadow-lg mx-auto" style="max-width: 600px; margin-top: 2rem;">
+  <div class="card-header bg-primary text-white">
+    <h5 class="card-title mb-0">匯入客戶資料</h5>
+  </div>
+  <div class="card-body">
+    <form method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label class="form-label">選擇 Excel 檔案 (.xlsx 或 .xls)</label>
+        <input type="file" name="excel_file" class="form-control" accept=".xlsx, .xls" required>
+      </div>
+      <button type="submit" class="btn btn-primary">匯入</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

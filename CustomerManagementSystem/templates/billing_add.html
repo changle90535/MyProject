@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}新增請款記錄 - 客戶管理系統{% endblock %}
+{% block content %}
+<div class="mt-5">
+  <h2>新增請款記錄</h2>
+  <form method="POST" action="{{ url_for('add_billing') }}" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="customer_id" class="form-label">選擇客戶</label>
+      <select name="customer_id" id="customer_id" class="form-select" required>
+        <option value="">請選擇</option>
+        {% for cust in available_customers %}
+          <option value="{{ cust.id }}">{{ cust.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <!-- 提醒日期與時間 -->
+<div class="mb-3">
+  <label for="reminder_date" class="form-label">提醒日期與時間</label>
+  <input type="datetime-local" name="reminder_date" id="reminder_date" class="form-control">
+  <div class="form-text">設定提醒日期與時間，系統會在該時刻提醒您處理請款流程。</div>
+</div>
+    <!-- 通知對象 -->
+    <div class="mb-3">
+      <label for="reminder_user_id" class="form-label">通知對象</label>
+      <select name="reminder_user_id" id="reminder_user_id" class="form-select">
+        <option value="">請選擇</option>
+        {% for user in users %}
+          <option value="{{ user.id }}">{{ user.username }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <!-- 客戶已回簽後的通知對象 -->
+    <div class="mb-3">
+      <label for="signed_reminder_user_id" class="form-label">客戶已回簽後通知對象</label>
+      <select name="signed_reminder_user_id" id="signed_reminder_user_id" class="form-select">
+        <option value="">請選擇</option>
+        {% for user in users %}
+          <option value="{{ user.id }}">{{ user.username }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <!-- 多檔上傳報價單 -->
+    <div class="mb-3">
+      <label for="quotations" class="form-label">上傳報價單 (可多選)</label>
+      <input type="file" class="form-control" id="quotations" name="quotations" multiple>
+      <div class="form-text">支援格式: pdf, doc, docx, png, jpg, jpeg, gif</div>
+    </div>
+    <!-- 新增勾選框：設定上傳的報價單是否為已回簽 -->
+    <div class="mb-3">
+      <label for="is_signed" class="form-label">
+        <input type="checkbox" name="is_signed" id="is_signed">
+        上傳的報價單全部設定為已回簽
+      </label>
+    </div>
+    <button type="submit" class="btn btn-primary">新增請款記錄</button>
+    <a href="{{ url_for('billing') }}" class="btn btn-secondary">取消</a>
+  </form>
+</div>
+{% endblock %}
